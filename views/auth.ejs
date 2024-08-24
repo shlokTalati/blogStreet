@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup</title>
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        .toggle-link {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+
+<div class="container form-container">
+    <h2 class="text-center">Account Access</h2>
+    
+    <!-- Login Form -->
+    <div id="login-form">
+        <form method="post" action="/auth/login">
+            <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" name="loginEmail" id="loginEmail" placeholder="Enter email">
+            </div>
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" name="loginPassword" id="loginPassword" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <p class="text-center mt-3">
+                Don't have an account? 
+                <span class="toggle-link" onclick="toggleForms()">Sign up</span>
+            </p>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signup-form" style="display: none;">
+        <form method="post" action="/auth/signup">
+            <div class="mb-3">
+                <label for="signupName" class="form-label">Name</label>
+                <input type="text" class="form-control" name="signupName" id="signupName" placeholder="Enter name">
+            </div>
+            <div class="mb-3">
+                <label for="signupAge" class="form-label">Age</label>
+                <input type="number" class="form-control" name="signupAge" id="signupAge" placeholder="Enter age">
+            </div>
+            <div class="mb-3">
+                <label for="signupEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" name="signupEmail" id="signupEmail" placeholder="Enter email">
+            </div>
+            <div class="mb-3">
+                <label for="signupPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" name="signupPassword" id="signupPassword" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign up</button>
+            <p class="text-center mt-3">
+                Already have an account? 
+                <span class="toggle-link" onclick="toggleForms()">Login</span>
+            </p>
+        </form>
+    </div>
+</div>
+
+<!-- Vanilla JavaScript -->
+<script>
+    function toggleForms() {
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+
+        if (loginForm.style.display === 'none') {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+        } else {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        }
+    }
+</script>
+
+<!-- Bootstrap JS -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
