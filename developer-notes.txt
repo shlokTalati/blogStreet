@@ -1,0 +1,12 @@
+Different Messages:-
+
+/Auth -> invalidtoken
+         invalidcredentials
+         signupsuccess
+         accessdenied
+
+
+TODO -> Create Profile Page
+        Refactor Route functions into Controller functions, make it cleaner
+        Create New Post Page and Post model
+        
