@@ -6,7 +6,15 @@ Different Messages:-
          accessdenied
 
 
-TODO -> Create Profile Page
-        Refactor Route functions into Controller functions, make it cleaner
+
+
+COMPLETED -> Login, Signup, and Logout Functionality
+
+
+TODO -> Define a Blog Post Model in MongoDB.
+        Create Routes for adding, retrieving, updating, and deleting posts.
+        Display Posts on the Homepage.
         Create New Post Page and Post model
+        Refactor Route functions into Controller functions, make it cleaner, basically clean the code
+
         

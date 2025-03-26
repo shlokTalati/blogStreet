@@ -4,11 +4,36 @@ const {User} = require('../model/userModel');
 
 const router = express.Router();
 
-router.get("/", (req, res) => { // Renders the Login, Signup Form on the url /auth
-    res.render("auth");
+
+router.get("/logout", (req, res)=>{
+    res.clearCookie("token"); // Clear JWT cookie
+    res.redirect("/auth");
 });
 
 
+router.use((req, res, next)=>{
+
+    const token = req.cookies?.token
+    // if (!token) {
+    //     console.log("Token Doesnt exist");
+    //     return next();
+    // }
+
+    try {
+        // Verify the token
+        let decoded = jwt.verify(token, process.env.SECRET_KEY);
+        req.user = decoded; // Attach decoded user info to request
+        return res.redirect('/');
+    } catch (error) {
+        next();
+    }
+});
+
+
+
+router.get("/", (req, res) => { // Renders the Login, Signup Form on the url /auth
+    res.render("auth");
+});
 
 // Signup Route
 router.post("/signup", async (req, res) => {
@@ -38,11 +63,11 @@ router.post("/login", async (req, res) => {
         res.redirect('/auth?msg=invalidcredentials')
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ name: user.name, email: user.email }, process.env.SECRET_KEY, { expiresIn: "1h" });
     res.cookie('token', token, {
         // sameSite: 'Strict' // Protects against CSRF
     });
-    res.redirect('/');
+    return res.redirect('/');
 });
 
 module.exports = router;
