@@ -1,0 +1,24 @@
+<!--Form Field Names: newPostTitle, newPostContent-->
+
+
+<div class="container mt-5 text-light">
+    <h2 class="text-center mb-4">Create a New Blog Post</h2>
+
+    <form action="/post/new" method="POST">
+        <!-- Title Field -->
+        <div class="mb-3">
+            <label for="newPostTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="newPostTitle" name="newPostTitle" required>
+        </div>
+
+        <!-- Content Field -->
+        <div class="mb-3">
+            <label for="newPostContent" class="form-label">Blog Content</label>
+            <textarea class="form-control" id="newPostContent" name="newPostContent" rows="6" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Publish Post</button>
+    </form>
+
+    <a href="/" class="btn btn-secondary mt-3">Go Back</a>
+</div>

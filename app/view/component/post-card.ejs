@@ -1,0 +1,11 @@
+
+<!--Variables: post-title, post-author, post-content, post._id -->
+
+<div class="card mb-4 border border-light bg-dark text-white">
+    <div class="card-body">
+        <h2 class="card-title"><%= post.title %></h2>
+        <p class="text-light small">By <%= post.author.name %> | <%= new Date(post.date).toDateString() %></p>
+        <p class="card-text"><%= post.content.substring(0, 200) %>...</p>
+        <a href="/post/<%= post._id %>" class="btn btn-primary">Read More</a>
+    </div>
+</div>

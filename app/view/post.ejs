@@ -1,0 +1,27 @@
+<div class="container mt-5 text-light">
+    <div class="card bg-dark text-light shadow-lg">
+        <div class="card-body">
+            <!-- Post Title -->
+            <h1 class="card-title text-center mb-3"><%= post.title %></h1>
+
+            <!-- Author and Date -->
+            <p class="text-center text-light">
+                By <strong><%= post.author.name %></strong> | <%= new Date(post.date).toLocaleDateString() %>
+            </p>
+
+            <hr>
+
+            <!-- Post Content -->
+            <p class="card-text" style="font-size: 1.2rem; line-height: 1.6;">
+                <%= post.content %>
+            </p>
+
+            <hr>
+
+            <!-- Back Button -->
+            <div class="text-center mt-4">
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>

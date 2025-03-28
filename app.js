@@ -13,6 +13,8 @@ const authRoute = require('./app/route/authRoute');
 const authenticateUser = require('./app/middleware/authMiddleware');
 const homeRoute = require('./app/route/homeRoute');
 const profileRoute = require('./app/route/profileRoute');
+const postRoute = require('./app/route/postRoute');
+
 
 
 
@@ -49,6 +51,7 @@ app.set("layout", "layout");
 
 app.use('/', homeRoute);
 app.use('/profile', profileRoute);
+app.use('/post', postRoute);
 
 
 

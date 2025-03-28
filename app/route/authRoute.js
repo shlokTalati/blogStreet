@@ -11,18 +11,15 @@ router.get("/logout", (req, res)=>{
 });
 
 
+// Checking if the user is already logged in, so that loggedIn users cannot access Login Page
 router.use((req, res, next)=>{
 
     const token = req.cookies?.token
-    // if (!token) {
-    //     console.log("Token Doesnt exist");
-    //     return next();
-    // }
 
     try {
         // Verify the token
-        let decoded = jwt.verify(token, process.env.SECRET_KEY);
-        req.user = decoded; // Attach decoded user info to request
+        jwt.verify(token, process.env.SECRET_KEY); // Attach decoded user info to req object
+        // req.user = jwt.verify(token, process.env.SECRET_KEY); // Attach decoded user info to req object
         return res.redirect('/');
     } catch (error) {
         next();
@@ -63,7 +60,7 @@ router.post("/login", async (req, res) => {
         res.redirect('/auth?msg=invalidcredentials')
     }
 
-    const token = jwt.sign({ name: user.name, email: user.email }, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id ,name: user.name, email: user.email }, process.env.SECRET_KEY, { expiresIn: "1h" });
     res.cookie('token', token, {
         // sameSite: 'Strict' // Protects against CSRF
     });
