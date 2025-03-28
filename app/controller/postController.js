@@ -9,19 +9,32 @@ async function fetchAllPosts(){
     }
 }
 
+async function fetchPostByPostId(postId){
+    try {
+        return await Post.findById(postId).populate("author", "name"); // Return Post by ID
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+async function fetchPostsByUserId(userId){
+    try {
+        return await Post.find({author: userId}).sort({ createdAt: -1 });
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
 
 async function newPost (req, res) {
     console.log("NEW POST REQUEST RECEIVED: " + req.body);
     try {
         const { newPostTitle, newPostContent } = req.body;
 
-        // Ensure user is authenticated before creating a post
-        if (!req.user || !req.user.id) {
-            return res.redirect('/auth?msg=invalidcredentials');
-        }
-
         const newPost = new Post({
-            author: req.user.id,
+            author: req.user._id,
             title: newPostTitle,
             content: newPostContent
         });
@@ -35,13 +48,39 @@ async function newPost (req, res) {
     }
 }
 
-async function fetchPostById(postId){
+async function deletePostById(postId) {
     try {
-        return await Post.findById(postId).populate("author", "name"); // Return Post by ID
-    } catch (err) {
-        console.error(err);
-        return null;
+        const deletedPost = await Post.findByIdAndDelete(postId);
+        if (!deletedPost) {
+            return false;
+        }
+        return true; // Returns true if Post is deleted
+
+    } catch (error) {
+        console.error("Error deleting post:", error);
+        return false;
     }
 }
 
-module.exports = {fetchAllPosts, newPost, fetchPostById}
+async function editPostById(postId, updatedData) {
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(
+            postId,
+            { $set: updatedData },
+            { new: true, runValidators: true } // Returns the updated document
+        );
+
+        if (!updatedPost) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error("Error updating post:", error);
+        return false;
+    }
+}
+
+
+
+
+module.exports = {fetchAllPosts, fetchPostByPostId, fetchPostsByUserId, newPost,  deletePostById, editPostById}

@@ -12,7 +12,7 @@ const expressLayouts = require('express-ejs-layouts');
 const authRoute = require('./app/route/authRoute');
 const authenticateUser = require('./app/middleware/authMiddleware');
 const homeRoute = require('./app/route/homeRoute');
-const profileRoute = require('./app/route/profileRoute');
+const userRoute = require('./app/route/userRoute');
 const postRoute = require('./app/route/postRoute');
 
 
@@ -50,7 +50,7 @@ app.set("layout", "layout");
 
 
 app.use('/', homeRoute);
-app.use('/profile', profileRoute);
+app.use('/user', userRoute);
 app.use('/post', postRoute);
 
 

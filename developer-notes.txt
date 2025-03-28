@@ -5,13 +5,15 @@ Different Messages:-
          signupsuccess
          accessdenied
 
+All user Data can be accessed on req.user - ("name", "email", and "_id")
+
 
 
 
 COMPLETED -> Login, Signup, and Logout Functionality
 
 
-TODO -> User should be able to see all his post in My Posts section, and should be able to delete or edit them.
+TODO -> User should be able to edit or delete his posts. Also authentication is necessary before letting user delete or edit post.
         Refactor Route functions into Controller functions, make it cleaner, basically clean the code
         Likes and Comments on Posts
         Tagging or Categorization of Posts.
@@ -21,5 +23,4 @@ TODO -> User should be able to see all his post in My Posts section, and should 
         Add Photos to your posts
         Bookmark Posts
         Proper Logging
-
-        
+        Convert actions to be done using Fetch Api as much as possible

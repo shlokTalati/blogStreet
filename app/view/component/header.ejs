@@ -1,24 +1,46 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="/">blogStreet</a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto"></ul>
+
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto" action="/search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search..." name="query">
+            </form>
+
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/post/new">Create</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/post/new">New Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/auth/logout">Logout</a>
+                <!-- Profile Dropdown (Hoverable) -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle profile-menu" href="#" id="profileDropdown" role="button">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/user/profile">My Profile</a></li>
+                        <li><a class="dropdown-item" href="/user/my-posts">My Posts</a></li>
+                        <li><a class="dropdown-item" href="/user/bookmarks">Bookmarks</a></li>
+                        <li><a class="dropdown-item" href="/user/settings">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="/auth/logout">Logout</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<!-- CSS for Hover Effect -->
+<style>
+    .navbar-nav .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+</style>
