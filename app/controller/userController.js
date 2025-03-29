@@ -8,4 +8,8 @@ function renderProfile(req, res){
     )
 }
 
+function updateProfile(req, res){
+
+}
+
 module.exports = {renderProfile};

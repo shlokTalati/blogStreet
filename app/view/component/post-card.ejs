@@ -3,9 +3,23 @@
 
 <div class="card mb-4 border border-light bg-dark text-white">
     <div class="card-body">
-        <h2 class="card-title"><%= post.title %></h2>
-        <p class="text-light small">By <%= post.author.name %> | <%= new Date(post.createdAt).toDateString() %></p>
-        <p class="card-text"><%= post.content.substring(0, 200) %>...</p>
-        <a href="/post/<%= post._id %>" class="btn btn-primary">Read More</a>
+        <h2 class="card-title"><a href="/post/<%= post._id %>"> <%= post.title %>  </a></h2>
+        <p class="text-light small">By <a href="/user/<%= post.author._id%>">  <%= post.author.name %> </a>| <%= new Date(post.createdAt).toDateString() %></p>
+        <p class="card-text"><%= post.content.substring(0, 200) %></p>
+
+        <% if (typeof showControls !== 'undefined' && showControls) { %>
+            <button type="button" class="btn btn-warning edit-btn"
+                    data-post-id="<%= post._id %>"
+                    data-post-title="<%= post.title %>"
+                    data-post-content="<%= post.content %>"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal">
+                Edit
+            </button>
+            <a href="/post/delete/<%= post._id %>" class="btn btn-danger">Delete</a>
+        <% } %>
     </div>
 </div>
+
+
+

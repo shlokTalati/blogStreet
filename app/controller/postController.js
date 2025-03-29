@@ -1,5 +1,14 @@
 const {Post} = require('../model/postModel');
 
+async function validateAuthority(postId, userId){ //Returns false if user not the owner of the post
+    let post = await Post.findById(postId);
+
+    if(post.author.toString() !== userId){
+        return false;
+    }
+    return true;
+}
+
 async function fetchAllPosts(){
     try {
         return await Post.find().populate("author", "name").sort({createdAt: -1}); // Returns all the Posts as result of this function. Eg. let POSTS = fetchPost().
@@ -48,39 +57,49 @@ async function newPost (req, res) {
     }
 }
 
-async function deletePostById(postId) {
-    try {
-        const deletedPost = await Post.findByIdAndDelete(postId);
-        if (!deletedPost) {
-            return false;
-        }
-        return true; // Returns true if Post is deleted
+async function deletePostById(req, res) {
 
+    let msg = "success";
+    if(await validateAuthority(req.params.postId, req.user._id) === false){
+        return res.send({msg: "User doesn't have access to this function."})
+    }
+    try {
+        const deletedPost = await Post.findByIdAndDelete(req.params.postId);
+        if (!deletedPost) {
+            msg = "failed"
+        }
+        res.redirect('/user/my-posts?msg=' + msg);
     } catch (error) {
         console.error("Error deleting post:", error);
-        return false;
+        msg = "failed"
+        res.redirect('/user/my-posts?msg=' + msg);
     }
 }
 
-async function editPostById(postId, updatedData) {
+async function editPostById(req, res) {
+
+    let msg = "success";
+
+    if(await validateAuthority(req.params.postId, req.user._id) === false){
+        return res.send({msg: "User doesn't have access to this function."})
+    }
+
     try {
         const updatedPost = await Post.findByIdAndUpdate(
-            postId,
+            req.params.postId,
             { $set: updatedData },
             { new: true, runValidators: true } // Returns the updated document
         );
 
         if (!updatedPost) {
-            return false;
+            msg="editfailed"
         }
-        return true;
+        return res.redirect('/user/my-posts?msg=' + temp);
     } catch (error) {
         console.error("Error updating post:", error);
-        return false;
+        msg="editfailed"
+        return res.redirect('/user/my-posts?msg=' + temp);
     }
 }
-
-
-
 
 module.exports = {fetchAllPosts, fetchPostByPostId, fetchPostsByUserId, newPost,  deletePostById, editPostById}

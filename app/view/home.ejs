@@ -1,7 +1,9 @@
 <div class="container text-light text-center mt-5">
     <h1>Welcome to BlogStreet</h1>
     <p>Your go-to blogging platform.</p>
+</div>
 
+<div class="container text-light mt-5">
     <% posts.forEach(post => { %>
 
         <%- include("component/post-card.ejs", {post: post} ) %>

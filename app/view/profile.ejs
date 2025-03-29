@@ -3,7 +3,7 @@
 <div class="container my-5">
     <h2 class="mb-4">User Profile</h2>
     <!-- Profile Form -->
-    <form action="/profile/edit" method="POST">
+    <form action="user/profile/edit" method="POST">
         <!-- Name Field -->
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -17,14 +17,15 @@
         </div>
         <!-- Email Field -->
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label" >Email</label>
             <input
                     type="email"
                     class="form-control"
                     id="email"
                     name="email"
                     value="<%= user.email %>"
-                    required>
+                    required
+                    readonly>
         </div>
         <!-- Password Field -->
         <div class="mb-3">

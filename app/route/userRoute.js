@@ -15,7 +15,7 @@ router.get('/bookmarks', renderProfile);
 router.get('/settings', renderProfile);
 
 router.get('/:userId', (req, res)=>{
-
+    return res.send("USER PAGE DEVELOPEMENT PENDING");
 })
 
 module.exports = router;
