@@ -9,7 +9,7 @@ router.use((req, res, next) => {
 
     if (!token) {
         // return res.status(401).json({ message: "Access denied. Need to login" });
-        res.redirect('/auth?msg=accessdenied');
+        return res.redirect('/auth?msg=accessdenied');
     }
 
     try {
@@ -19,7 +19,7 @@ router.use((req, res, next) => {
         next(); // Move to the next route
     } catch (error) {
         // return res.status(403).json({ message: "Invalid token." });
-        res.redirect('/auth?msg=invalidtoken')
+        return res.redirect('/auth?msg=invalidtoken')
     }
 });
 

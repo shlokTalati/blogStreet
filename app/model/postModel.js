@@ -15,17 +15,16 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    categories:{
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}],
+        default: []
+    },
     createdAt: {
         type: Date,
         default: Date.now
-    },
-    tags:{
-        type: [String],
-        default: []
-    },
+    }
 });
 
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = {Post};
-

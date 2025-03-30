@@ -4,12 +4,13 @@ const {validateAuthority, editPostById, deletePostById} = require('../service/po
 async function newPost (req, res) {
     console.log("NEW POST REQUEST RECEIVED: " + req.body);
     try {
-        const { newPostTitle, newPostContent } = req.body;
+        const { newPostTitle, newPostContent, newPostCategories } = req.body;
 
         const newPost = new Post({
             author: req.user._id,
             title: newPostTitle,
-            content: newPostContent
+            content: newPostContent,
+            categories: newPostCategories
         });
 
         let savedPost = await newPost.save();
@@ -42,17 +43,16 @@ async function deletePost(req, res) {
     }
 }
 
-async function editPost(req, res) {
-
-    let msg = "success";
-    // Assume updatedData comes from req.body
-    const updatedData = req.body;
+async function editPostController(req, res) {
 
     // Check if the current user is authorized to edit the post
     if (await validateAuthority(req.params.postId, req.user._id) === false) {
         return res.send({ msg: "User doesn't have access to this function." });
     }
 
+    let msg = "success";
+
+    const updatedData = req.body;
     try {
         const updatedPost = await editPostById(req.params.postId, updatedData);
         if (!updatedPost) {
@@ -66,4 +66,4 @@ async function editPost(req, res) {
     }
 }
 
-module.exports = {newPost,  deletePost, editPost}
+module.exports = {newPost,  deletePost, editPostController}

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const {Post} = require('../model/postModel');
-const {newPost, deletePost, editPost} = require('../controller/postController');
+const {newPost, deletePost, editPostController} = require('../controller/postController');
 const {fetchPostByPostId} = require('../service/postService')
+const {fetchAllCategories} = require('../service/categoryService');
 
 
 router.get("/new", async (req, res) => {
-    res.render('new-post', {title: 'New post'});
+    let categories = await fetchAllCategories();
+    res.render('new-post', {title: 'New post', categories: categories});
 });
 
 router.post("/new", newPost);
@@ -14,7 +15,7 @@ router.post("/new", newPost);
 router.get("/delete/:postId", deletePost);
 
 
-router.post("/edit/:postId", editPost)
+router.post("/edit/:postId", editPostController)
 
 
 

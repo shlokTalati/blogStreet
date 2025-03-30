@@ -23,4 +23,4 @@ TODO -> Add Photos to your posts
         Bookmark Posts
         Proper Logging
         Convert actions to be done using Fetch Api as much as possible
-
+        Create an Admin Panel

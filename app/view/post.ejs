@@ -10,11 +10,17 @@
             </p>
 
             <hr>
-
+            <p class="text-light small">
+                <% post.categories.forEach(category => { %>
+                    <a href="/category/<%= category._id %>" class="badge bg-info text-dark"><%= category.name %></a>
+                <% }) %>
+            </p>
             <!-- Post Content -->
             <p class="card-text" style="font-size: 1.2rem; line-height: 1.6;">
                 <%= post.content %>
             </p>
+
+
 
             <hr>
 

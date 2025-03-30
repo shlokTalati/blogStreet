@@ -14,6 +14,7 @@ const authenticateUser = require('./app/middleware/authMiddleware');
 const homeRoute = require('./app/route/homeRoute');
 const userRoute = require('./app/route/userRoute');
 const postRoute = require('./app/route/postRoute');
+const categoryRoute = require('./app/route/categoryRoute');
 
 
 
@@ -52,6 +53,7 @@ app.set("layout", "layout");
 app.use('/', homeRoute);
 app.use('/user', userRoute);
 app.use('/post', postRoute);
+app.use('/category', categoryRoute);
 
 
 

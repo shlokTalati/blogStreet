@@ -1,0 +1,13 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-white">Posts in "<%= category.name %>"</h2>
+
+    <% if (posts.length > 0) { %>
+        <% posts.forEach(post => { %>
+            <%- include("component/post-card.ejs", { post: post, showControls: false }) %>
+        <% }) %>
+    <% } else { %>
+        <p class="text-center text-white">No posts found in this category.</p>
+    <% } %>
+
+    <a href="/" class="btn btn-secondary mt-3">Go Back</a>
+</div>

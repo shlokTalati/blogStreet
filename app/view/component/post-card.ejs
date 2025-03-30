@@ -4,14 +4,19 @@
 <div class="card mb-4 border border-light bg-dark text-white">
     <div class="card-body">
         <h2 class="card-title"><a href="/post/<%= post._id %>"> <%= post.title %>  </a></h2>
-        <p class="text-light small">By <a href="/user/<%= post.author._id%>">  <%= post.author.name %> </a>| <%= new Date(post.createdAt).toDateString() %></p>
+        <p class="text-light small">By <a href="/user/<%= post.author._id%>">  <%= post.author.name %> </a>| <%= new Date(post.createdAt).toDateString() %>  &nbsp; <% post.categories.forEach(category => { %>
+                <a href="/category/<%= category._id %>" class="badge bg-info text-dark"><%= category.name %></a>
+            <% }) %></p>
         <p class="card-text"><%= post.content.substring(0, 200) %></p>
 
-        <% if (typeof showControls !== 'undefined' && showControls) { %>
+
+
+    <% if (typeof showControls !== 'undefined' && showControls) { %>
             <button type="button" class="btn btn-warning edit-btn"
                     data-post-id="<%= post._id %>"
                     data-post-title="<%= post.title %>"
                     data-post-content="<%= post.content %>"
+                    data-post-categories = "<%= JSON.stringify(post.categories) %>"
                     data-bs-toggle="modal"
                     data-bs-target="#editModal">
                 Edit
