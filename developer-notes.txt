@@ -14,11 +14,11 @@ COMPLETED -> Login, Signup, and Logout Functionality
 
 
 TODO -> Add Photos to your posts
-        Refactor Route functions into Controller functions, make it cleaner, basically clean the code
-        Likes and Comments on Posts
         Tagging or Categorization of Posts.
         Category URL. Eg, /posts/category/tech should show all tech related posts
         Search Posts (Using AJAX or Fetch Api)
+        Refactor Route functions into Controller functions, make it cleaner, basically clean the code
+        Likes and Comments on Posts
         Email Notifications for post comment, likes, etc.
         Bookmark Posts
         Proper Logging

@@ -1,41 +1,5 @@
 const {Post} = require('../model/postModel');
-
-async function validateAuthority(postId, userId){ //Returns false if user not the owner of the post
-    let post = await Post.findById(postId);
-
-    if(post.author.toString() !== userId){
-        return false;
-    }
-    return true;
-}
-
-async function fetchAllPosts(){
-    try {
-        return await Post.find().populate("author", "name").sort({createdAt: -1}); // Returns all the Posts as result of this function. Eg. let POSTS = fetchPost().
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
-
-async function fetchPostByPostId(postId){
-    try {
-        return await Post.findById(postId).populate("author", "name"); // Return Post by ID
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
-
-async function fetchPostsByUserId(userId){
-    try {
-        return await Post.find({author: userId}).sort({ createdAt: -1 });
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
-
+const {validateAuthority, editPostById, deletePostById} = require('../service/postService');
 
 async function newPost (req, res) {
     console.log("NEW POST REQUEST RECEIVED: " + req.body);
@@ -57,49 +21,49 @@ async function newPost (req, res) {
     }
 }
 
-async function deletePostById(req, res) {
-
+async function deletePost(req, res) {
     let msg = "success";
-    if(await validateAuthority(req.params.postId, req.user._id) === false){
-        return res.send({msg: "User doesn't have access to this function."})
+
+    // Validate authority first
+    if (await validateAuthority(req.params.postId, req.user._id) === false) {
+        return res.send({ msg: "User doesn't have access to this function." });
     }
+
     try {
-        const deletedPost = await Post.findByIdAndDelete(req.params.postId);
+        const deletedPost = await deletePostById(req.params.postId);
         if (!deletedPost) {
-            msg = "failed"
+            msg = "failed";
         }
-        res.redirect('/user/my-posts?msg=' + msg);
+        return res.redirect('/user/my-posts?msg=' + msg);
     } catch (error) {
         console.error("Error deleting post:", error);
-        msg = "failed"
-        res.redirect('/user/my-posts?msg=' + msg);
+        msg = "failed";
+        return res.redirect('/user/my-posts?msg=' + msg);
     }
 }
 
-async function editPostById(req, res) {
+async function editPost(req, res) {
 
     let msg = "success";
+    // Assume updatedData comes from req.body
+    const updatedData = req.body;
 
-    if(await validateAuthority(req.params.postId, req.user._id) === false){
-        return res.send({msg: "User doesn't have access to this function."})
+    // Check if the current user is authorized to edit the post
+    if (await validateAuthority(req.params.postId, req.user._id) === false) {
+        return res.send({ msg: "User doesn't have access to this function." });
     }
 
     try {
-        const updatedPost = await Post.findByIdAndUpdate(
-            req.params.postId,
-            { $set: updatedData },
-            { new: true, runValidators: true } // Returns the updated document
-        );
-
+        const updatedPost = await editPostById(req.params.postId, updatedData);
         if (!updatedPost) {
-            msg="editfailed"
+            msg = "editfailed";
         }
-        return res.redirect('/user/my-posts?msg=' + temp);
+        return res.redirect('/user/my-posts?msg=' + msg);
     } catch (error) {
         console.error("Error updating post:", error);
-        msg="editfailed"
-        return res.redirect('/user/my-posts?msg=' + temp);
+        msg = "editfailed";
+        return res.redirect('/user/my-posts?msg=' + msg);
     }
 }
 
-module.exports = {fetchAllPosts, fetchPostByPostId, fetchPostsByUserId, newPost,  deletePostById, editPostById}
+module.exports = {newPost,  deletePost, editPost}

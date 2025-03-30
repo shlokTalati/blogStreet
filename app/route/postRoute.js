@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const {Post} = require('../model/postModel');
-const {newPost, fetchPostByPostId, deletePostById, editPostById} = require('../controller/postController');
+const {newPost, deletePost, editPost} = require('../controller/postController');
+const {fetchPostByPostId} = require('../service/postService')
+
 
 router.get("/new", async (req, res) => {
     res.render('new-post', {title: 'New post'});
@@ -9,10 +11,10 @@ router.get("/new", async (req, res) => {
 
 router.post("/new", newPost);
 
-router.get("/delete/:postId", deletePostById);
+router.get("/delete/:postId", deletePost);
 
 
-router.post("/edit/:postId", editPostById)
+router.post("/edit/:postId", editPost)
 
 
 

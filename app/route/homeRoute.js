@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {fetchAllPosts} = require('../controller/postController');
+const {fetchAllPosts} = require('../service/postService');
 
 router.get("/", async (req, res) => {
     try{

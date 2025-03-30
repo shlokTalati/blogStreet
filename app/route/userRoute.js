@@ -1,6 +1,6 @@
 let {renderProfile} = require('../controller/userController')
 let express = require('express')
-const {fetchPostsByUserId} = require("../controller/postController");
+const {fetchPostsByUserId} = require("../service/postService");
 let router = express.Router()
 
 
@@ -11,11 +11,15 @@ router.get('/my-posts', async (req, res)=>{
 });
 
 
-router.get('/bookmarks', renderProfile);
-router.get('/settings', renderProfile);
+router.get('/bookmarks', (req, res)=>{
+    return res.render('under-development.ejs', {title: "blogStreet"})
+});
+router.get('/settings', (req, res)=>{
+    return res.render('under-development.ejs', {title: "blogStreet"})
+});
 
 router.get('/:userId', (req, res)=>{
-    return res.send("USER PAGE DEVELOPEMENT PENDING");
+    return res.render('under-development.ejs', {title: "blogStreet"})
 })
 
 module.exports = router;
