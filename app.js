@@ -15,9 +15,7 @@ const homeRoute = require('./app/route/homeRoute');
 const userRoute = require('./app/route/userRoute');
 const postRoute = require('./app/route/postRoute');
 const categoryRoute = require('./app/route/categoryRoute');
-
-
-
+const apiRoute = require('./app/route/apiRoute');
 
 
 
@@ -42,6 +40,8 @@ app.use(cookieParser()); // Makes the cookie accessible to the application
 
 app.use('/auth', authRoute); // Auth Route placed above token checking because at the time of auth, user would not have a token, so Token checking would always prove false.
 
+app.use('/api', apiRoute); // API Route is placed above token checking as functions like Searching does not require User Authentication.
+
 app.use(authenticateUser); // Allows access to application only if AUTHENTICATED
 
 
@@ -54,13 +54,6 @@ app.use('/', homeRoute);
 app.use('/user', userRoute);
 app.use('/post', postRoute);
 app.use('/category', categoryRoute);
-
-
-
-
-
-
-
 
 
 app.listen(process.env.PORT, ()=>{ console.log('Server started on port 80') });

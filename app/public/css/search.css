@@ -1,0 +1,16 @@
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+
+.suggestion-box {
+    position: absolute;
+    top: 100%; /* Positions it right below the input */
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures it's above other elements */
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
