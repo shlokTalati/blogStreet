@@ -1,10 +1,18 @@
-const Post = require('../model/postModel');
-const Category = require('../model/categoryModel');
-const User = require('../model/userModel');
+const {getSearchData} = require('../service/searchService')
 
-async function sendSearchResults(req, res){
-    return res.send(req.params)
+async function  sendSearchResult(req, res){
+    const query = req.query.q;
+    if (!query) {
+        return res.json({ posts: [], categories: [], users: [] });
+    }
+
+    try {
+        res.json(await getSearchData(query));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Error" });
+    }
 }
 
 
-module.exports = { sendSearchResults };
+module.exports = { sendSearchResult };
