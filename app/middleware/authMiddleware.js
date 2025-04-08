@@ -16,6 +16,7 @@ router.use((req, res, next) => {
         // Verify the token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decoded; // Attach decoded user info to request
+        res.locals.currentUser = decoded;
         next(); // Move to the next route
     } catch (error) {
         // return res.status(403).json({ message: "Invalid token." });

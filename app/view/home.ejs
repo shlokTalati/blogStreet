@@ -3,11 +3,29 @@
     <p>Your go-to blogging platform.</p>
 </div>
 
-<div class="container text-light mt-5">
+
+<div class="container mt-4 row">
+
+    <!-- Sidebar -->
+    <div class="col-md-3 bg-dark px-5">
+        <div class="list-group bg-dark text-light">
+            <a href="/" class="list-group-item list-group-item-action active">All Categories</a>
+            <% categories.forEach(category => { %>
+                <a href="/category/<%= category._id %>" class="list-group-item list-group-item-action bg-dark text-light">
+                    <%= category.name %>
+                </a>
+            <% }) %>
+        </div>
+    </div>
+
+
+<div class="container text-light md-9">
     <% posts.forEach(post => { %>
 
         <%- include("component/post-card.ejs", {post: post} ) %>
 
     <% }) %>
+
+</div>
 
 </div>

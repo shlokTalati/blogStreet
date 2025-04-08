@@ -2,7 +2,6 @@ const {Post} = require('../model/postModel');
 const {validateAuthority, editPostById, deletePostById} = require('../service/postService');
 
 async function newPost (req, res) {
-    console.log("NEW POST REQUEST RECEIVED: " + req.body);
     try {
         const { newPostTitle, newPostContent, newPostCategories } = req.body;
 

@@ -1,13 +1,26 @@
 
-<!--Variables: post-title, post-author, post-content, post._id -->
+<!--Variables: post-title, post-author, post-content, post._id, bookmarkedPostIds -->
+<!--bookmarkedPostIds variable is used for populating the bookmark button-->
 
-<div class="card mb-4 border border-light bg-dark text-white">
+<div class="card mb-4 border border-light bg-dark text-white position-relative">
     <div class="card-body">
         <h2 class="card-title"><a href="/post/<%= post._id %>"> <%= post.title %>  </a></h2>
         <p class="text-light small">By <a href="/user/<%= post.author._id%>">  <%= post.author.name %> </a>| <%= new Date(post.createdAt).toDateString() %>  &nbsp; <% post.categories.forEach(category => { %>
                 <a href="/category/<%= category._id %>" class="badge bg-info text-dark"><%= category.name %></a>
             <% }) %></p>
         <p class="card-text"><%= post.content.substring(0, 200) %></p>
+
+        <!-- Bookmark Button -->
+        <% const isBookmarked = bookmarkedPostIds.includes(post._id.toString()); %>
+        <button
+                class="btn btn-link bookmark-btn position-absolute top-0 end-0 m-3"
+                data-post-id="<%= post._id %>"
+                data-is-bookmarked=<%= isBookmarked %>>
+
+            <i class="<%=  isBookmarked ? 'fas' : 'far' %> fa-bookmark text-light"></i>
+
+        </button>
+
 
 
 
