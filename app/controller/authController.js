@@ -20,20 +20,27 @@ function redirectIfLoggedIn(req, res, next){
 }
 
 async function signupUser(req, res) {
+
     const { signupName, signupEmail, signupPassword } = req.body;
 
-    const existingUser = await User.findOne({email: signupEmail});
+    try{
 
-    if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+        const existingUser = await User.findOne({email: signupEmail});
+
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        let hashedPassword = await hashPassword(signupPassword) //Hash Password before saving
+
+        const newUser = new User({ name: signupName, email: signupEmail, password: hashedPassword });
+        await newUser.save();
+
+        return res.redirect('/auth?msg=signupsuccess');
     }
-
-    let hashedPassword = await hashPassword(signupPassword) //Hash Password before saving
-
-    const newUser = new User({ name: signupName, email: signupEmail, password: hashedPassword });
-    await newUser.save();
-
-    return res.redirect('/auth?msg=signupsuccess');
+    catch (err){
+        return res.redirect('/auth?msg='+ err);
+    }
 }
 
 async function loginUser(req, res){
