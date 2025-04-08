@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const {User} = require('../model/userModel');
+const {hashPassword, verifyPassword} = require('../service/authService');
 
 const router = express.Router();
 
@@ -42,7 +43,9 @@ router.post("/signup", async (req, res) => {
         return res.status(400).json({ message: "User already exists" });
     }
 
-    const newUser = new User({ name: signupName, email: signupEmail, password: signupPassword });
+    let hashedPassword = await hashPassword(signupPassword) //Hash Password before saving
+
+    const newUser = new User({ name: signupName, email: signupEmail, password: hashedPassword });
     await newUser.save();
 
     return res.redirect('/auth?msg=signupsuccess');
@@ -54,17 +57,25 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
     const { loginEmail, loginPassword } = req.body;
 
-    const user = await User.findOne({email: loginEmail});
 
-    if (!user || user.password !== loginPassword) {
-        res.redirect('/auth?msg=invalidcredentials')
+    try{
+        const user = await User.findOne({email: loginEmail});
+        if(await verifyPassword(loginPassword, user.password) === true){
+            const token = jwt.sign({ _id: user._id ,name: user.name, email: user.email }, process.env.SECRET_KEY, { expiresIn: "1h" });
+            res.cookie('token', token, {
+                // sameSite: 'Strict' // Protects against CSRF
+            });
+            return res.redirect('/');
+        }
+        else{
+            return res.redirect('/auth?msg=invalidcredentials')
+
+        }
     }
+    catch (err){
+        return res.redirect('/auth?msg=' + err)
 
-    const token = jwt.sign({ _id: user._id ,name: user.name, email: user.email }, process.env.SECRET_KEY, { expiresIn: "1h" });
-    res.cookie('token', token, {
-        // sameSite: 'Strict' // Protects against CSRF
-    });
-    return res.redirect('/');
+    }
 });
 
 module.exports = router;
