@@ -1,4 +1,4 @@
-let {renderProfile} = require('../controller/userController')
+let {renderCurrentUserProfile, renderUserProfile} = require('../controller/userController')
 let express = require('express')
 const {fetchPostsByUserId} = require("../service/postService");
 const {fetchAllCategories} = require("../service/categoryService");
@@ -7,7 +7,7 @@ const {renderUserBookmarks} = require('../controller/bookmarkController')
 let router = express.Router()
 
 
-router.get('/profile', renderProfile);
+router.get('/profile', renderCurrentUserProfile);
 
 router.get('/my-posts', async (req, res)=>{
     let bookmarkedPostIds = await getBookmarkedPostIds(req.user._id)
@@ -20,8 +20,6 @@ router.get('/settings', (req, res)=>{
     return res.render('under-development.ejs', {title: "blogStreet"})
 });
 
-router.get('/:userId', (req, res)=>{
-    return res.render('under-development.ejs', {title: "blogStreet"})
-})
+router.get('/:id', renderUserProfile)
 
 module.exports = router;

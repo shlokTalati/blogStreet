@@ -1,0 +1,20 @@
+<div class="container py-5">
+    <h1 class="mb-4">👤 <%= user.name %></h1>
+    <p><strong>Email:</strong> <%= user.email %></p>
+
+    <hr>
+
+    <h3 class="mt-5 mb-3">📝 Posts by <%= user.name %></h3>
+
+    <div class="row">
+        <% if (posts.length === 0) { %>
+            <p class="text-light">User hasn't posted anything yet</p>
+        <% } else { %>
+            <% posts.forEach(post => { %>
+                <div class="col-md-6 mb-4">
+                    <%- include('component/post-card.ejs', { showControls: false, post: post}) %>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>
