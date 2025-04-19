@@ -135,9 +135,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Ignore all files inside uploads
-app/public/uploads/*
-
-# But keep the folder itself (and subfolders)
+# Gitignore
+app/public/uploads/post-images/*
+app/public/uploads/profile-pictures/*
 !app/public/uploads/
-!app/public/uploads/**/
+!app/public/uploads/post-images/
+!app/public/uploads/profile-pictures/
