@@ -138,6 +138,11 @@ dist
 # Gitignore
 app/public/uploads/post-images/*
 app/public/uploads/profile-pictures/*
+
 !app/public/uploads/
+!app/public/uploads/.gitkeep
 !app/public/uploads/post-images/
+!app/public/uploads/post-images/.gitkeep
 !app/public/uploads/profile-pictures/
+!app/public/uploads/profile-pictures/.gitkeep
+
