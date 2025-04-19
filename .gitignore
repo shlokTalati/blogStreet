@@ -134,3 +134,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Ignore all files inside uploads
+/app/public/uploads/*
+
+# But keep the folder itself (and subfolders)
+!/app/public/uploads/
+!/app/public/uploads/**/
