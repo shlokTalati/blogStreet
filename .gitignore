@@ -136,8 +136,8 @@ dist
 .pnp.*
 
 # Ignore all files inside uploads
-/app/public/uploads/*
+app/public/uploads/*
 
 # But keep the folder itself (and subfolders)
-!/app/public/uploads/
-!/app/public/uploads/**/
+!app/public/uploads/
+!app/public/uploads/**/
