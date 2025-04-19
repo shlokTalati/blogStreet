@@ -22,8 +22,13 @@
 
         </button>
 
-
-
+        <!-- Images Display -->
+        <% if (post.imageUrls && post.imageUrls.length > 0) { %>
+            <% post.imageUrls.forEach(imageUrl => { %>
+                <img src="/uploads/post-images/<%= imageUrl %>" class="card-img-top m-2" style="max-height: 200px; width: auto" alt="Post Image">
+            <% }) %>
+        <% } %>
+        <br>
 
     <% if (typeof showControls !== 'undefined' && showControls) { %>
             <button type="button" class="btn btn-warning edit-btn"

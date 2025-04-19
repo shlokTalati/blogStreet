@@ -20,6 +20,13 @@
                 <%= post.content %>
             </p>
 
+            <!-- Images Display -->
+            <% if (post.imageUrls && post.imageUrls.length > 0) { %>
+                <% post.imageUrls.forEach(imageUrl => { %>
+                    <img src="/uploads/post-images/<%= imageUrl %>" class="card-img-top m-2" style="max-height: 300px; width: auto" alt="Post Image">
+                <% }) %>
+            <% } %>
+            <br>
 
 
             <hr>

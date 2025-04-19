@@ -1,15 +1,35 @@
 const {Post} = require('../model/postModel');
+const multer = require('multer');
+const path = require('path');
 const {validateAuthority, editPostById, deletePostById} = require('../service/postService');
+
+
+// Middleware that will be used to Upload file and give unique FileName
+const postImageUpload = multer({ storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'app/public/uploads/post-images/'); // Folder to store uploaded files
+        },
+        filename: function (req, file, cb) {
+            const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            cb(null, uniqueName + path.extname(file.originalname)); // preserves original file extension
+        }
+    })
+});
+
+
 
 async function newPost (req, res) {
     try {
-        const { newPostTitle, newPostContent, newPostCategories } = req.body;
+        const { newPostTitle, newPostContent, newPostCategories} = req.body;
+
+        const newPostImageUrls = req.files.map(file => file.filename);  // Array of uploaded filenames
 
         const newPost = new Post({
             author: req.user._id,
             title: newPostTitle,
             content: newPostContent,
-            categories: newPostCategories
+            categories: newPostCategories,
+            imageUrls: newPostImageUrls
         });
 
         let savedPost = await newPost.save();
@@ -65,4 +85,4 @@ async function editPostController(req, res) {
     }
 }
 
-module.exports = {newPost,  deletePost, editPostController}
+module.exports = {newPost,  deletePost, editPostController, postImageUpload}

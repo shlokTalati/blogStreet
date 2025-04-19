@@ -7,7 +7,7 @@
 <div class="container mt-5 text-light">
     <h2 class="text-center mb-4">Create a New Blog Post</h2>
 
-    <form action="/post/new" method="POST">
+    <form action="/post/new" method="POST" enctype="multipart/form-data">
         <!-- Title Field -->
         <div class="mb-3">
             <label for="newPostTitle" class="form-label">Title</label>
@@ -32,6 +32,7 @@
             <small class="text-muted">Start typing to search for a category.</small>
         </div>
 
+        <input type="file" name="newPostImages" class="form-control mb-2" multiple>
 
 
         <button type="submit" class="btn btn-primary">Publish Post</button>

@@ -19,6 +19,10 @@ const postSchema = new mongoose.Schema({
         type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}],
         default: []
     },
+    imageUrls:{
+        type: [String],
+        default: []
+    },
     createdAt: {
         type: Date,
         default: Date.now
