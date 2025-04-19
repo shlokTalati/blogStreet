@@ -9,7 +9,7 @@ router.use((req, res, next) => {
 
     if (!token) {
         // return res.status(401).json({ message: "Access denied. Need to login" });
-        return res.redirect('/auth?msg=accessdenied');
+        return res.redirect('/auth');
     }
 
     try {
