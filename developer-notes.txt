@@ -13,8 +13,7 @@ All user Data can be accessed on req.user - ("name", "email", and "_id")
 COMPLETED -> Login, Signup, and Logout Functionality, Password Hashing
 
 
-TODO -> Add Photos to your posts
-        Likes and Comments on Posts
+TODO -> Likes and Comments on Posts
         Email Notifications for post comment, likes, etc.
         Proper Logging
         Convert actions to be done using Fetch Api as much as possible
