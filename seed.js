@@ -1,13 +1,19 @@
-// seed.js
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const mongoose = require('mongoose');
-const { Category } = require('app/model/categoryModel'); // Adjust the path if needed
+const { User } = require("./app/model/userModel");
+const { Category } = require("./app/model/CategoryModel");
+const { Post } = require("./app/model/postModel");
 
-// MongoDB URI (Change this to your local or remote DB)
-const MONGO_URI = 'mongodb://localhost:27017/blogstreet';
+const MONGO_URI = "mongodb://localhost:27017/blogstreet";
 
-// Categories to insert
-const categories = [
+const usersData = [
+    { name: "John Doe", email: "john@example.com", password: "DUMMY" },
+    { name: "Jane Smith", email: "jane@example.com", password: "DUMMY" },
+    { name: "Alex Brown", email: "alex@example.com", password: "DUMMY" },
+];
+
+const categoriesData = [
     { name: "Technology", description: "Posts about the latest in tech, gadgets, and software." },
     { name: "Education", description: "Learning resources, study techniques, and student experiences." },
     { name: "Lifestyle", description: "Tips and blogs on health, productivity, and daily habits." },
@@ -22,31 +28,132 @@ const categories = [
     { name: "Art & Design", description: "Visual design, digital art, and creative inspiration." },
     { name: "Science", description: "Scientific discoveries, research, and innovation." },
     { name: "Mental Health", description: "Awareness, stories, and tips around mental well-being." },
-    { name: "Self Improvement", description: "Growth habits, routines, and personal development." }
+    { name: "Self Improvement", description: "Growth habits, routines, and personal development." },
 ];
 
-async function seedCategories() {
+const postsData = [
+    {
+        authorName: "John Doe",
+        title: "The Rise of AI in Everyday Technology",
+        content: "Artificial Intelligence is transforming our daily gadgets, from smart assistants to predictive algorithms. This post explores the impact of AI on consumer technology and what the future holds.",
+        categories: ["Technology", "Science"],
+        imageUrls: [],
+    },
+    {
+        authorName: "Jane Smith",
+        title: "Top Study Techniques That Actually Work",
+        content: "Tired of ineffective study methods? This article highlights evidence-based techniques like spaced repetition and active recall that can boost your learning efficiency.",
+        categories: ["Education", "Self Improvement"],
+        imageUrls: [],
+    },
+    {
+        authorName: "Alex Brown",
+        title: "10 Healthy Lifestyle Habits to Start Today",
+        content: "From mindful eating to daily exercise, adopting these habits can improve your productivity and overall well-being. Learn how to make lasting changes without overwhelming yourself.",
+        categories: ["Lifestyle", "Self Improvement", "Mental Health"],
+        imageUrls: [],
+    },
+    {
+        authorName: "John Doe",
+        title: "Exploring the Hidden Gems of Bali",
+        content: "Beyond the crowded beaches, Bali offers serene temples, lush rice terraces, and unique cultural experiences. Here's a travel guide to some lesser-known spots for your next trip.",
+        categories: ["Travel", "Lifestyle"],
+        imageUrls: [],
+    },
+    {
+        authorName: "Jane Smith",
+        title: "5 Easy Recipes for Busy Weeknights",
+        content: "Cooking doesn’t have to be complicated. These quick and delicious recipes are perfect for anyone with a hectic schedule looking to eat healthy.",
+        categories: ["Food", "Lifestyle"],
+        imageUrls: [],
+    },
+    {
+        authorName: "Alex Brown",
+        title: "Smart Investing Strategies for Beginners",
+        content: "Investing can be intimidating, but starting with the right approach can secure your financial future. This post covers basics like diversification, risk management, and long-term planning.",
+        categories: ["Finance", "Business"],
+        imageUrls: [],
+    },
+    {
+        authorName: "John Doe",
+        title: "How to Nail Your Next Job Interview",
+        content: "Preparation and confidence are key to interview success. Here are practical tips on answering common questions and making a great impression.",
+        categories: ["Career", "Self Improvement"],
+        imageUrls: [],
+    },
+    {
+        authorName: "Jane Smith",
+        title: "The Best TV Shows to Binge This Year",
+        content: "From thrilling dramas to laugh-out-loud comedies, this list covers the must-watch shows that have captivated audiences worldwide.",
+        categories: ["Entertainment"],
+        imageUrls: [],
+    },
+    {
+        authorName: "Alex Brown",
+        title: "Understanding the Current Political Climate",
+        content: "A balanced look at recent political developments and their implications on society and economy. Stay informed with this digest of the latest news.",
+        categories: ["Politics"],
+        imageUrls: [],
+    },
+    {
+        authorName: "John Doe",
+        title: "Startup Success Stories: Lessons from the Best",
+        content: "Entrepreneurs share insights on how they built their startups from the ground up. Learn the strategies and mindsets that helped them thrive in competitive markets.",
+        categories: ["Business", "Technology"],
+        imageUrls: [],
+    },
+];
+
+async function seed() {
     try {
-        await mongoose.connect(MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('MongoDB connected');
+        await mongoose.connect(MONGO_URI);
+        console.log("MongoDB connected");
 
-        // Clear existing categories
+        // Clear collections
+        await User.deleteMany({});
         await Category.deleteMany({});
-        console.log('Old categories deleted');
+        await Post.deleteMany({});
 
-        // Insert new categories
-        const inserted = await Category.insertMany(categories);
-        console.log(`${inserted.length} categories inserted`);
+        // Hash password once for all users
+        const hashedPassword = await bcrypt.hash("DUMMY", 10);
 
-        await mongoose.disconnect();
-        console.log('MongoDB disconnected');
-    } catch (error) {
-        console.error('Error seeding categories:', error);
+        // Insert users
+        const usersToInsert = usersData.map(user => ({
+            name: user.name,
+            email: user.email,
+            password: hashedPassword,
+        }));
+        const insertedUsers = await User.insertMany(usersToInsert);
+        const userMap = {};
+        insertedUsers.forEach(user => {
+            userMap[user.name] = user._id;
+        });
+
+        // Insert categories
+        const insertedCategories = await Category.insertMany(categoriesData);
+        const categoryMap = {};
+        insertedCategories.forEach(category => {
+            categoryMap[category.name] = category._id;
+        });
+
+        // Insert posts
+        const postsToInsert = postsData.map(post => ({
+            author: userMap[post.authorName],
+            title: post.title,
+            content: post.content,
+            categories: post.categories.map(category => categoryMap[category]),
+            imageUrls: post.imageUrls || [],
+            createdAt: new Date(),
+        }));
+
+        await Post.insertMany(postsToInsert);
+
+        console.log("Seeding complete!");
+        process.exit(0);
+    } catch (err) {
+        console.error("Error during seeding:", err);
         process.exit(1);
     }
 }
 
-await seedCategories();
+seed();
