@@ -1,8 +1,8 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4 text-white">Posts in "<%= category.name %>"</h2>
 
-    <% if (posts.length > 0) { %>
-        <% posts.forEach(post => { %>
+    <% if (postCardData.posts.length > 0) { %>
+        <% postCardData.posts.forEach(post => { %>
             <%- include("component/post-card.ejs", { post: post, showControls: false }) %>
         <% }) %>
     <% } else { %>

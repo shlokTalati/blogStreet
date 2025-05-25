@@ -10,7 +10,7 @@
     <div class="col-md-3 bg-dark px-5">
         <div class="list-group bg-dark text-light">
             <a href="/" class="list-group-item list-group-item-action active">All Categories</a>
-            <% categories.forEach(category => { %>
+            <% postCardData.categories.forEach(category => { %>
                 <a href="/category/<%= category._id %>" class="list-group-item list-group-item-action bg-dark text-light">
                     <%= category.name %>
                 </a>
@@ -20,7 +20,7 @@
 
 
 <div class="container text-light md-9">
-    <% posts.forEach(post => { %>
+    <% postCardData.posts.forEach(post => { %>
 
         <%- include("component/post-card.ejs", {post: post} ) %>
 

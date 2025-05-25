@@ -7,10 +7,10 @@
     <h3 class="mt-5 mb-3">📝 Posts by <%= user.name %></h3>
 
     <div class="row">
-        <% if (posts.length === 0) { %>
+        <% if (postCardData.posts.length === 0) { %>
             <p class="text-light">User hasn't posted anything yet</p>
         <% } else { %>
-            <% posts.forEach(post => { %>
+            <% postCardData.posts.forEach(post => { %>
                 <div class="col-md-6 mb-4">
                     <%- include('component/post-card.ejs', { showControls: false, post: post}) %>
                 </div>
