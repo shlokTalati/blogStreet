@@ -5,6 +5,7 @@ const {fetchAllCategories} = require("../service/categoryService");
 const {getBookmarkedPostIds} = require("../service/bookmarkService");
 const {renderUserBookmarks} = require('../controller/bookmarkController')
 const {preparePostCardData} = require('../service/postCardService')
+const {renderUserLikes} = require("../controller/likeController");
 
 let router = express.Router()
 
@@ -20,6 +21,8 @@ router.get('/my-posts', async (req, res)=>{
 
 
 router.get('/bookmarks', renderUserBookmarks);
+
+router.get('/likes', renderUserLikes)
 
 router.get('/settings', (req, res)=>{
     return res.render('under-development.ejs', {title: "blogStreet"})

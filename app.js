@@ -17,6 +17,7 @@ const postRoute = require('./app/route/postRoute');
 const categoryRoute = require('./app/route/categoryRoute');
 const apiRoute = require('./app/route/apiRoute');
 const bookmarkRoute = require('./app/route/bookmarkRoute');
+const likeRotue = require('./app/route/likeRoute');
 
 
 
@@ -55,7 +56,8 @@ app.use('/', homeRoute);
 app.use('/user', userRoute);
 app.use('/post', postRoute);
 app.use('/category', categoryRoute);
-app.use('/bookmark', bookmarkRoute)
+app.use('/bookmark', bookmarkRoute);
+app.use('/like', likeRotue);
 
 
 app.listen(process.env.PORT, ()=>{ console.log('Server started on port 80') });

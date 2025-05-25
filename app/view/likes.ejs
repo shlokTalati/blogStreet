@@ -1,0 +1,15 @@
+<div class="container my-5">
+    <h2 class="text-white mb-4">Activity: Liked Posts</h2>
+
+    <div class="row">
+        <% if (postCardData.posts.length === 0) { %>
+            <p class="text-light">You haven't Liked any posts yet.</p>
+        <% } else { %>
+            <% postCardData.posts.forEach(post => { %>
+                <div class="col-md-6 mb-4">
+                    <%- include('component/post-card.ejs', { showControls: false, post}) %>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>

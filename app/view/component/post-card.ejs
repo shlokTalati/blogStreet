@@ -22,6 +22,17 @@
 
         </button>
 
+        <!-- Like Button -->
+        <% const isLiked = postCardData.likedPostIds.includes(post._id.toString()); %>
+        <button
+                class="btn btn-link like-btn"
+                data-post-id="<%= post._id %>"
+                data-is-liked=<%= isLiked %>>
+
+            <i class="<%=  isLiked ? 'fas' : 'far' %> fa-heart text-light"></i>
+
+        </button>
+
         <!-- Images Display -->
         <% if (post.imageUrls && post.imageUrls.length > 0) { %>
             <% post.imageUrls.forEach(imageUrl => { %>
