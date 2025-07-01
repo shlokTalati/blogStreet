@@ -1,24 +1,13 @@
-let {renderCurrentUserProfile, renderUserProfile} = require('../controller/userController')
 let express = require('express')
-const {fetchPostsByUserId, fetchPostsByCategoryId} = require("../service/postService");
-const {fetchAllCategories} = require("../service/categoryService");
-const {getBookmarkedPostIds} = require("../service/bookmarkService");
 const {renderUserBookmarks} = require('../controller/bookmarkController')
-const {preparePostCardData} = require('../service/postCardService')
 const {renderUserLikes} = require("../controller/likeController");
+const {renderUserProfile, renderMyPostsPage, renderCurrentUserProfile} = require('../controller/userController')
 
 let router = express.Router()
 
-
 router.get('/profile', renderCurrentUserProfile);
 
-router.get('/my-posts', async (req, res)=>{
-    let bookmarkedPostIds = getBookmarkedPostIds(req.user._id)
-    const postCardData = await preparePostCardData(req.user._id, fetchPostsByUserId(req.user._id));
-
-    res.render("my-posts", {title: "My Posts" , postCardData, categories: await fetchAllCategories(), bookmarkedPostIds})
-});
-
+router.get('/my-posts', renderMyPostsPage);
 
 router.get('/bookmarks', renderUserBookmarks);
 

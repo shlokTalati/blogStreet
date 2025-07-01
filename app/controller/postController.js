@@ -1,7 +1,8 @@
 const {Post} = require('../model/postModel');
 const multer = require('multer');
 const path = require('path');
-const {validateAuthority, editPostById, deletePostById} = require('../service/postService');
+const {validateAuthority, editPostById, deletePostById, fetchPostByPostId} = require('../service/postService');
+const {fetchAllCategories} = require('../service/categoryService');
 
 
 // Middleware that will be used to Upload file and give unique FileName
@@ -16,9 +17,12 @@ const postImageUpload = multer({ storage: multer.diskStorage({
     })
 });
 
+async function renderNewPostPage (req, res){
+    let categories = await fetchAllCategories();
+    res.render('new-post', {title: 'New post', categories: categories});
+}
 
-
-async function newPost (req, res) {
+async function submitNewPost (req, res) {
     try {
         const { newPostTitle, newPostContent, newPostCategories} = req.body;
 
@@ -62,7 +66,7 @@ async function deletePost(req, res) {
     }
 }
 
-async function editPostController(req, res) {
+async function editPost(req, res) {
 
     // Check if the current user is authorized to edit the post
     if (await validateAuthority(req.params.postId, req.user._id) === false) {
@@ -85,4 +89,8 @@ async function editPostController(req, res) {
     }
 }
 
-module.exports = {newPost,  deletePost, editPostController, postImageUpload}
+async function renderPost(req, res){
+    res.render('post', {title: "Post", post: await fetchPostByPostId(req.params.postId)});
+}
+
+module.exports = {submitNewPost,  deletePost, editPost, postImageUpload, renderNewPostPage, renderPost}

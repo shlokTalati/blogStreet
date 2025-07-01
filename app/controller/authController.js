@@ -19,6 +19,10 @@ function redirectIfLoggedIn(req, res, next){
     }
 }
 
+function renderAuthPage(req, res) {
+    res.render("auth");
+}
+
 async function signupUser(req, res) {
 
     const { signupName, signupEmail, signupPassword } = req.body;
@@ -67,4 +71,9 @@ async function loginUser(req, res){
     }
 }
 
-module.exports = {redirectIfLoggedIn, signupUser, loginUser}
+function logoutUser(req, res){
+        res.clearCookie("token"); // Clear JWT cookie
+        res.redirect("/auth");
+}
+
+module.exports = {redirectIfLoggedIn, renderAuthPage, signupUser, loginUser, logoutUser}

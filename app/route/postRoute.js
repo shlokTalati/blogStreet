@@ -1,27 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const {newPost, deletePost, editPostController, postImageUpload} = require('../controller/postController');
-const {fetchPostByPostId} = require('../service/postService')
-const {fetchAllCategories} = require('../service/categoryService');
+const {submitNewPost, deletePost, editPost, postImageUpload, renderNewPostPage, renderPost} = require('../controller/postController');
 
 
-router.get("/new", async (req, res) => {
-    let categories = await fetchAllCategories();
-    res.render('new-post', {title: 'New post', categories: categories});
-});
+router.get("/new", renderNewPostPage);
 
-router.post("/new", postImageUpload.array('newPostImages', 4) ,newPost);
+router.post("/new", postImageUpload.array('newPostImages', 4) ,submitNewPost);
 
 router.get("/delete/:postId", deletePost);
 
+router.post("/edit/:postId", editPost)
 
-router.post("/edit/:postId", editPostController)
-
-
-
-router.get("/:postId", async(req, res)=>{
-    res.render('post', {title: "Post", post: await fetchPostByPostId(req.params.postId)});
-});
+router.get("/:postId", renderPost);
 
 
 module.exports = router;
