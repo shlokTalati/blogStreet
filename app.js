@@ -60,4 +60,4 @@ app.use('/bookmark', bookmarkRoute);
 app.use('/like', likeRotue);
 
 
-app.listen(process.env.PORT, ()=>{ console.log('Server started on port 80') });
+app.listen(process.env.PORT, ()=>{ console.log(`Server started on port ${process.env.PORT}`) });
