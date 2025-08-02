@@ -12,6 +12,14 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/blogstreet
 
+  seed:
+    build: .
+    depends_on:
+      - mongo
+    command: [ "node", "seed.js" ]
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/blogstreet
+
   mongo:
     image: mongo:6
     ports:

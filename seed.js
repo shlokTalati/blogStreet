@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+require('dotenv').config({path: './app/config/.env'});
 
 const { User } = require("./app/model/userModel");
-const { Category } = require("./app/model/CategoryModel");
+const { Category } = require("./app/model/categoryModel");
 const { Post } = require("./app/model/postModel");
 
-const MONGO_URI = "mongodb://localhost:27017/blogstreet";
+const MONGO_URI = process.env.MONGO_URI;
 
 const usersData = [
     { name: "John Doe", email: "john@example.com", password: "DUMMY" },
@@ -156,4 +157,11 @@ async function seed() {
     }
 }
 
+async function seedDatabase() {
+    const existingUsers = await User.find({});
+    if (existingUsers.length > 0) {
+        console.log("Database already seeded. Skipping...");
+        process.exit(0);
+    }
+}
 seed();
